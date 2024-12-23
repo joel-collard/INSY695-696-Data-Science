@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CHPPA</title>
+    <style>
+        body {
+            background-color: #D8E6DC; /* Light pastel sage */
+            color: #2E4D44; /* Dark sage */
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Adjust dropdown spacing */
+        select {
+            margin-bottom: 20px; /* Match the margin below slider containers */
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            background-color: #F7F9F7; /* Very light sage */
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .title-container {
+            text-align: center; /* Center title and icon */
+            margin-bottom: 20px; /* Add spacing below */
+        }
+
+        .home-icon {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            fill: #2E4D44; /* Dark sage color for the icon */
+        }
+
+        h1 {
+            margin-top: 10px;
+            margin-bottom: 0;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px; /* Add consistent spacing between variables */
+            text-align: left; /* Align form elements to the left */
+        }
+
+        label {
+            font-size: 1rem;
+            font-weight: bold;
+            margin-bottom: 5px; /* Space between label and input */
+        }
+
+        select, input[type="range"] {
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #A3BEB3;
+        }
+
+        .description {
+            text-align: left; /* Left-align the paragraph text */
+            margin: 10px 0 0; /* Add spacing to separate it from the title */
+            font-size: 1rem; /* Adjust font size if necessary */
+        }
+
+        input[type="range"] {
+            width: 100%; /* Make sliders wide */
+            max-width: 600px; /* Limit slider width for very large screens */
+            margin: 0 auto; /* Center sliders */
+        }
+
+        .cta-button {
+            background-color: #A3BEB3; /* Muted sage green button */
+            color: #F7F9F7;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .cta-button:hover {
+            background-color: #8FA99B; /* Slightly darker sage */
+        }
+
+        .slider-container {
+        margin-bottom: 20px;
+        }
+
+        .slider-wrapper {
+            display: flex;
+            align-items: center; /* Align slider and value on the same line */
+            gap: 10px; /* Add some space between the slider and the value box */
+        }
+
+        .slider-value {
+            background-color: #ffffff; /* White background for the value box */
+            color: #2E4D44; /* Dark sage text color */
+            border: 1px solid #A3BEB3; /* Border for the box */
+            padding: 5px 10px; /* Add padding for a box-like appearance */
+            border-radius: 5px; /* Rounded corners */
+            font-size: 1rem;
+            min-width: 50px; /* Ensure the box has a consistent width */
+            text-align: center; /* Center the value inside the box */
+        }
+
+        input[type="range"] {
+            flex-grow: 1; /* Allow the slider to take up available space */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Title and Icon Section -->
+        <div class="title-container">
+            <svg class="home-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+            </svg>
+            <h1>Canadian Home Price Prediction App</h1>
+            <p class="description">
+                Enter current macro-economic indicator estimates for the province and home type below to predict next year's respective benchmark home price for strategic scenario planning.
+            </p>
+        </div>
+
+        <!-- Form Section -->
+        <form method="POST" action="/predict">
+            <!-- Province -->
+            <label for="province">Province</label>
+            <select name="province" id="province" required>
+            <option value="" disabled selected>Select a province</option>
+            <option value="British Columbia">British Columbia</option>
+            <option value="Alberta">Alberta</option>
+            <option value="Saskatchewan">Saskatchewan</option>
+            <option value="Ontario">Ontario</option>
+            <option value="Quebec">Quebec</option>
+            <option value="New Brunswick">New Brunswick</option>
+            <option value="Nova Scotia">Nova Scotia</option>
+            <option value="Prince Edward Island">Prince Edward Island</option>
+            <option value="Newfoundland and Labrador">Newfoundland and Labrador</option>
+            </select>
+        
+            <!-- Home Type -->
+            <label for="home_type">Home Type</label>
+            <select name="home_type" id="home_type" required>
+            <option value="" disabled selected>Select a home type</option>
+            <option value="Single Family">Single Family</option>
+            <option value="Townhouse">Townhouse</option>
+            <option value="Apartment">Apartment</option>
+            </select>
+
+            <!-- Overnight Rate -->
+            <div class="slider-container">
+                <label for="overnight_rate">Overnight Rate</label>
+                <p style="font-size: 0.9rem;">
+                    Target overnight rate for Bank of Canada.
+                </p>
+                <div class="slider-wrapper">
+                    <input
+                        type="range"
+                        name="overnight_rate"
+                        id="overnight_rate"
+                        min="0"
+                        max="20"
+                        step="0.1"
+                        oninput="updateValue('overnight_rate', this.value)"
+                        required
+                    />
+                    <span id="overnight_rate_value" class="slider-value">4</span>
+                </div>
+            </div>
+
+            <!-- Population Growth Lag 12 -->
+            <div class="slider-container">
+                <label for="population_growth_lag_12">Population Change</label>
+                <p style="font-size: 0.9rem;">
+                    Estimated percent change in population over last 12 months.
+                </p>
+                <div class="slider-wrapper">
+                    <input
+                        type="range"
+                        name="population_growth_lag_12"
+                        id="population_growth_lag_12"
+                        min="-1000"
+                        max="1500"
+                        step="1"
+                        oninput="updateValue('population_growth_lag_12', this.value)"
+                        required
+                    />
+                    <span id="population_growth_lag_12_value" class="slider-value">5</span>
+                </div>
+            </div>
+
+            <!-- CPI Shelter -->
+            <div class="slider-container">
+                <label for="cpi_shelter">Consumer Price Index - Shelter</label>
+                <p style="font-size: 0.9rem;">
+                    Estimated Consumer Price Index for shelter.
+                </p>
+                    <div class="slider-wrapper">
+                    <input
+                        type="range"
+                        name="cpi_shelter"
+                        id="cpi_shelter"
+                        min="200"
+                        max="400"
+                        step="0.1"
+                        oninput="updateValue('cpi_shelter', this.value)"
+                        required
+                    />
+                    <span id="cpi_shelter_value" class="slider-value">200</span>
+                </div>
+            </div>
+
+            <!-- CPI Shelter Change Lag 12 -->
+            <div class="slider-container">
+                <label for="cpi_shelter_change_lag_12">Consumer Price Index Change - Shelter</label>
+                <p style="font-size: 0.9rem;">
+                    Estimated percent change in Consumer Price Index for shelter over last 12 months.
+                </p>
+                <div class="slider-wrapper">
+                    <input
+                        type="range"
+                        name="cpi_shelter_change_lag_12"
+                        id="cpi_shelter_change_lag_12"
+                        min="-1"
+                        max="1"
+                        step="0.001"
+                        oninput="updateValue('cpi_shelter_change_lag_12', this.value)"
+                        required
+                    />
+                    <span id="cpi_shelter_change_lag_12_value" class="slider-value">0</span>
+                </div>
+            </div>
+
+            <!-- Home Starts -->
+            <div class="slider-container">
+                <label for="home_starts">Housing Starts</label>
+                <p style="font-size: 0.9rem;">
+                    Estimated estimated number of housing starts for the current month.
+                </p>
+                <div class="slider-wrapper">
+                    <input
+                        type="range"
+                        name="home_starts"
+                        id="home_starts"
+                        min="0"
+                        max="50000"
+                        step="10"
+                        oninput="updateValue('home_starts', this.value)"
+                        required
+                    />
+                    <span id="home_starts_value" class="slider-value">5000</span>
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="cta-button">Predict</button>
+        </form>
+
+        <p style="font-size: 0.8rem;">
+            <br>This application is powered by current macro-economic and benchmark housing data from the Canadian Real Estate Association (CREA), Bank of Canada (BoC), Canada Mortgage and Housing Corporation (CMHC), and Statistics Canada (StatCan).
+        </p>
+    </div>
+    <script>
+        // Function to update the value display
+        function updateValue(id, value) {
+            document.getElementById(id + '_value').textContent = value;
+        }
+    </script>
+</body>
+</html>

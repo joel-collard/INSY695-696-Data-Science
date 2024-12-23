@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canadian Home Price Prediction</title>
+    <style>
+        body {
+            background-color: #E8F0F2; /* Light pastel sage background */
+            color: #2E4D44; /* Dark sage text */
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            background-color: #F7F9F7; /* Very light sage */
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        .title-container {
+            text-align: center; /* Center title and icon */
+            margin-bottom: 20px; /* Add spacing below */
+        }
+
+        .home-icon {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            fill: #2E4D44; /* Dark sage color for the icon */
+        }
+
+        h1 {
+            margin-top: 10px;
+            margin-bottom: 0;
+            font-size: 2.5rem;
+        }
+
+        p {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .back-button {
+            background-color: #A3BEB3; /* Muted sage green button */
+            color: #F7F9F7; /* Light text for contrast */
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .back-button:hover {
+            background-color: #8FA99B; /* Slightly darker pastel sage on hover */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Title and Icon Section -->
+        <div class="title-container">
+            <svg class="home-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+            </svg>
+            <h1>Canadian Home Price Prediction App</h1>
+            <p>Your predicted home price is: <strong>{{ prediction }}</strong></p>
+        </div>
+        <button class="back-button" onclick="window.history.back()">Go Back</button>
+    </div>
+</body>
+</html>
